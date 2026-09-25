@@ -213,4 +213,24 @@ router.get("/get/project-detail/todo/:project_id", async (req, res)=>{
     }
 })
 
+router.delete("/delete/project-detail/todo", async (req, res)=>{
+    const {project_id, todo_id} = req.body;
+    try{
+        const result = await pool.query(
+            `DELETE FROM project_todos WHERE project_id = $1 AND todo_id = $2`,
+            [project_id, todo_id]
+        )
+        res.json({
+            message: "Data Deleted Successfully"
+        })
+
+    } catch (error){
+        console.error(error)
+        res.json({
+            message: "Unable to delete Todo Data"
+        })
+    }
+})
+
+
 module.exports = router;
